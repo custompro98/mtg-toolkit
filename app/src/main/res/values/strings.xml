@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">MTG Toolkit</string>
-    <string name="action_settings">Settings</string>
+    <string name="call_to_action">Take a Picture</string>
 </resources>
