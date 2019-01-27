@@ -37,6 +37,7 @@ class ParseImageTask(private var activity: MainActivity, imagePath: String, serv
         try {
             parsingService?.parse(object : ParsingCallback {
                 override fun onParsed(cardName: String) {
+                    FetchCardTask(activity, cardName).execute()
                     activity.runOnUiThread {
                         activity.textView.text = cardName
                         activity.progressBar.visibility = View.INVISIBLE

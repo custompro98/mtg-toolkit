@@ -39,6 +39,8 @@ dependencies {
     implementation 'com.amazonaws:aws-android-sdk-core'
     implementation 'com.amazonaws:aws-android-sdk-rekognition:2.11.0'
     implementation "com.leinardi.android:speed-dial:1.0-alpha06"
+    implementation 'io.magicthegathering:kotlinsdk:1.0.3'
+    implementation 'com.squareup.picasso:picasso:2.71828'
 }
 
 apply plugin: 'com.google.gms.google-services'
