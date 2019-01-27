@@ -28,7 +28,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private val REQUEST_TAKE_PHOTO = 1
+    private val REQUEST_IMAGE_CAPTURE = 1
     private var mCurrentPhotoPath: String = ""
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            ParseImageTask(this, mCurrentPhotoPath).execute()
+        }
+    }
 
     private fun dispatchTakePictureIntent() {
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
