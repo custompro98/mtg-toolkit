@@ -1,4 +1,4 @@
-package com.custompro98.mtgtoolkit
+package com.custompro98.mtgtoolkit.activities
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -8,7 +8,9 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.support.v4.content.FileProvider
 import android.support.v7.app.AppCompatActivity
-
+import com.custompro98.mtgtoolkit.R
+import com.custompro98.mtgtoolkit.asyncTasks.ParseImageTask
+import com.custompro98.mtgtoolkit.enums.ServiceName
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.File
 import java.io.IOException

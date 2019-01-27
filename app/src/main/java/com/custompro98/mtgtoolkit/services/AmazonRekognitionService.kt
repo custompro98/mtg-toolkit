@@ -1,4 +1,4 @@
-package com.custompro98.mtgtoolkit
+package com.custompro98.mtgtoolkit.services
 
 import android.content.Context
 import com.amazonaws.auth.AWSCredentialsProvider
@@ -7,6 +7,7 @@ import com.amazonaws.regions.Regions
 import com.amazonaws.services.rekognition.AmazonRekognitionClient
 import com.amazonaws.services.rekognition.model.DetectTextRequest
 import com.amazonaws.services.rekognition.model.Image
+import com.custompro98.mtgtoolkit.callbacks.ParsingCallback
 import java.io.File
 import java.nio.ByteBuffer
 

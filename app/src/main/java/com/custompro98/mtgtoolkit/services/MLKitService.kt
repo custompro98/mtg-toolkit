@@ -1,9 +1,9 @@
-package com.custompro98.mtgtoolkit
+package com.custompro98.mtgtoolkit.services
 
 import android.content.Context
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.Matrix
+import com.custompro98.mtgtoolkit.callbacks.ParsingCallback
+import com.custompro98.mtgtoolkit.extensions.rotate
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
 import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer
@@ -35,32 +35,4 @@ class MLKitService(image: File, private var context: Context) : ParsingService {
                     callback.onParsed(result)
                 }
     }
-}
-
-// Extension function to rotate a bitmap
-fun Bitmap.rotate(degree: Int): Bitmap {
-    // Initialize a new matrix
-    val matrix = Matrix()
-
-    // Rotate the bitmap
-    matrix.postRotate(degree.toFloat())
-
-    // Resize the bitmap
-    val scaledBitmap = Bitmap.createScaledBitmap(
-            this,
-            width,
-            height,
-            true
-    )
-
-    // Create and return the rotated bitmap
-    return Bitmap.createBitmap(
-            scaledBitmap,
-            0,
-            0,
-            scaledBitmap.width,
-            scaledBitmap.height,
-            matrix,
-            true
-    )
 }

@@ -1,8 +1,14 @@
-package com.custompro98.mtgtoolkit
+package com.custompro98.mtgtoolkit.asyncTasks
 
 import android.annotation.SuppressLint
 import android.os.AsyncTask
 import android.view.View
+import com.custompro98.mtgtoolkit.activities.MainActivity
+import com.custompro98.mtgtoolkit.callbacks.ParsingCallback
+import com.custompro98.mtgtoolkit.enums.ServiceName
+import com.custompro98.mtgtoolkit.services.AmazonRekognitionService
+import com.custompro98.mtgtoolkit.services.MLKitService
+import com.custompro98.mtgtoolkit.services.ParsingService
 import kotlinx.android.synthetic.main.content_main.*
 import java.io.File
 
