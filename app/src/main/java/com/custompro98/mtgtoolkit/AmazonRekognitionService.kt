@@ -10,7 +10,7 @@ import com.amazonaws.services.rekognition.model.Image
 import java.io.File
 import java.nio.ByteBuffer
 
-class AmazonRekognitionService(image: File, private var context: Context) {
+class AmazonRekognitionService(image: File, private var context: Context) : ParsingService {
     private val byteBuffer: ByteBuffer
     private val awsCredentialsProvider: AWSCredentialsProvider
     private val amazonRekognitionClient: AmazonRekognitionClient
@@ -21,7 +21,7 @@ class AmazonRekognitionService(image: File, private var context: Context) {
         this.amazonRekognitionClient = AmazonRekognitionClient(awsCredentialsProvider)
     }
 
-    fun parse(): String {
+    override fun parse(callback: ParsingCallback) {
         val detectTextRequest = DetectTextRequest()
                 .withImage(Image()
                         .withBytes(byteBuffer))
@@ -31,7 +31,7 @@ class AmazonRekognitionService(image: File, private var context: Context) {
             textDetection.detectedText.length > 1
         }
 
-        return probableCardName?.detectedText ?: "No card title found"
+        callback.onParsed(probableCardName?.detectedText ?: "No card title found")
     }
 
     private fun getAwsCredentialsProvider(): AWSCredentialsProvider {

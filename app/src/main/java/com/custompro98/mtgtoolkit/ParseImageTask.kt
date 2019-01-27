@@ -7,13 +7,14 @@ import kotlinx.android.synthetic.main.content_main.*
 import java.io.File
 
 @SuppressLint("StaticFieldLeak")
-class ParseImageTask(private var activity: MainActivity, imagePath: String) : AsyncTask<Void, Void, String>() {
+class ParseImageTask(private var activity: MainActivity, imagePath: String) : AsyncTask<Void, Void, Unit>() {
     private val image: File
-    private val parsingService: AmazonRekognitionService
+    private val parsingService: ParsingService
 
     init {
         this.image = File(imagePath)
-        this.parsingService = AmazonRekognitionService(image, activity.applicationContext)
+//        this.parsingService = AmazonRekognitionService(image, activity.applicationContext)
+        this.parsingService = MLKitService(image, activity.applicationContext)
     }
 
     override fun onPreExecute() {
@@ -23,22 +24,21 @@ class ParseImageTask(private var activity: MainActivity, imagePath: String) : As
         activity.progressBar.visibility = View.VISIBLE
     }
 
-    override fun doInBackground(vararg p0: Void?): String {
-        return try {
-            parsingService.parse()
+    override fun doInBackground(vararg p0: Void?) {
+        try {
+            parsingService.parse(object : ParsingCallback {
+                override fun onParsed(cardName: String) {
+                    activity.runOnUiThread {
+                        activity.textView.text = cardName
+                        activity.progressBar.visibility = View.INVISIBLE
+                        activity.textView.visibility = View.VISIBLE
+                    }
+                }
+            })
         } catch (e: Exception) {
             e.printStackTrace()
-            "Error!"
         } finally {
             image.delete()
         }
-    }
-
-    override fun onPostExecute(result: String?) {
-        super.onPostExecute(result)
-
-        activity.textView.text = result
-        activity.progressBar.visibility = View.INVISIBLE
-        activity.textView.visibility = View.VISIBLE
     }
 }
