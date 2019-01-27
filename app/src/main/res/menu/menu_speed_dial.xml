@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/fabMLKit"
+        android:icon="@drawable/camera_outline"
+        android:title="@string/mlkit" />
+    <item
+        android:id="@+id/fabRekognition"
+        android:icon="@drawable/camera_outline"
+        android:title="@string/rekognition" />
+</menu>

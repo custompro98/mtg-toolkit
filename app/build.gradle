@@ -38,6 +38,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation 'com.amazonaws:aws-android-sdk-core'
     implementation 'com.amazonaws:aws-android-sdk-rekognition:2.11.0'
+    implementation "com.leinardi.android:speed-dial:1.0-alpha06"
 }
 
 apply plugin: 'com.google.gms.google-services'

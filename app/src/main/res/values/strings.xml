@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">MTG Toolkit</string>
     <string name="call_to_action">Take a Picture</string>
+    <string name="mlkit">ML Kit</string>
+    <string name="rekognition">Rekognition</string>
 </resources>

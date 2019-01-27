@@ -7,14 +7,17 @@ import kotlinx.android.synthetic.main.content_main.*
 import java.io.File
 
 @SuppressLint("StaticFieldLeak")
-class ParseImageTask(private var activity: MainActivity, imagePath: String) : AsyncTask<Void, Void, Unit>() {
+class ParseImageTask(private var activity: MainActivity, imagePath: String, serviceToUse: ServiceName) : AsyncTask<Void, Void, Unit>() {
     private val image: File
-    private val parsingService: ParsingService
+    private val parsingService: ParsingService?
 
     init {
         this.image = File(imagePath)
-//        this.parsingService = AmazonRekognitionService(image, activity.applicationContext)
-        this.parsingService = MLKitService(image, activity.applicationContext)
+        this.parsingService = when (serviceToUse) {
+            ServiceName.MLKIT -> MLKitService(image, activity.applicationContext)
+            ServiceName.REKOGNITION -> AmazonRekognitionService(image, activity.applicationContext)
+            ServiceName.NONE -> null
+        }
     }
 
     override fun onPreExecute() {
@@ -26,7 +29,7 @@ class ParseImageTask(private var activity: MainActivity, imagePath: String) : As
 
     override fun doInBackground(vararg p0: Void?) {
         try {
-            parsingService.parse(object : ParsingCallback {
+            parsingService?.parse(object : ParsingCallback {
                 override fun onParsed(cardName: String) {
                     activity.runOnUiThread {
                         activity.textView.text = cardName

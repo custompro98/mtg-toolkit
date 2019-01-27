@@ -15,26 +15,26 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
+
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-
-        fab.setOnClickListener { _ ->
-            dispatchTakePictureIntent()
-        }
+        inflateSpeedDial()
     }
 
     private val REQUEST_TAKE_PHOTO = 1
     private val REQUEST_IMAGE_CAPTURE = 1
+
     private var mCurrentPhotoPath: String = ""
+    private var mParsingService: ServiceName = ServiceName.NONE
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            ParseImageTask(this, mCurrentPhotoPath).execute()
+            ParseImageTask(this, mCurrentPhotoPath, mParsingService).execute()
         }
     }
 
@@ -76,6 +76,27 @@ class MainActivity : AppCompatActivity() {
         ).apply {
             // Save a file: path for use with ACTION_VIEW intents
             mCurrentPhotoPath = this.absolutePath
+        }
+    }
+
+    private fun inflateSpeedDial() {
+        speedDial.inflate(R.menu.menu_speed_dial)
+        speedDial.setOnActionSelectedListener {
+            when (it.id) {
+                R.id.fabMLKit -> {
+                    mParsingService = ServiceName.MLKIT
+                    dispatchTakePictureIntent()
+                    false
+                }
+                R.id.fabRekognition -> {
+                    mParsingService = ServiceName.REKOGNITION
+                    dispatchTakePictureIntent()
+                    false
+                }
+                else -> {
+                    true
+                }
+            }
         }
     }
 }
