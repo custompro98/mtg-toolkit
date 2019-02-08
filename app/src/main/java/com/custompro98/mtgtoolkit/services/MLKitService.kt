@@ -2,7 +2,6 @@ package com.custompro98.mtgtoolkit.services
 
 import android.content.Context
 import android.graphics.BitmapFactory
-import com.custompro98.mtgtoolkit.callbacks.ParsingCallback
 import com.custompro98.mtgtoolkit.extensions.rotate
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
@@ -21,7 +20,7 @@ class MLKitService(image: File, private var context: Context) : ParsingService {
         this.firebaseVisionTextRecognizer = FirebaseVision.getInstance().onDeviceTextRecognizer
     }
 
-    override fun parse(callback: ParsingCallback) {
+    override fun parse(callback: (String) -> Unit) {
         firebaseVisionTextRecognizer
                 .processImage(firebaseVisionImage)
                 .addOnCompleteListener { firebaseVisionText ->
@@ -32,7 +31,7 @@ class MLKitService(image: File, private var context: Context) : ParsingService {
                     }
 
                     firebaseVisionTextRecognizer.close()
-                    callback.onParsed(result)
+                    callback(result)
                 }
     }
 }

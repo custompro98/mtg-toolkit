@@ -7,7 +7,6 @@ import com.amazonaws.regions.Regions
 import com.amazonaws.services.rekognition.AmazonRekognitionClient
 import com.amazonaws.services.rekognition.model.DetectTextRequest
 import com.amazonaws.services.rekognition.model.Image
-import com.custompro98.mtgtoolkit.callbacks.ParsingCallback
 import java.io.File
 import java.nio.ByteBuffer
 
@@ -22,7 +21,7 @@ class AmazonRekognitionService(image: File, private var context: Context) : Pars
         this.amazonRekognitionClient = AmazonRekognitionClient(awsCredentialsProvider)
     }
 
-    override fun parse(callback: ParsingCallback) {
+    override fun parse(callback: (String) -> Unit) {
         val detectTextRequest = DetectTextRequest()
                 .withImage(Image()
                         .withBytes(byteBuffer))
@@ -32,7 +31,7 @@ class AmazonRekognitionService(image: File, private var context: Context) : Pars
             textDetection.detectedText.length > 1
         }
 
-        callback.onParsed(probableCardName?.detectedText ?: "No card title found")
+        callback(probableCardName?.detectedText ?: "No card title found")
     }
 
     private fun getAwsCredentialsProvider(): AWSCredentialsProvider {

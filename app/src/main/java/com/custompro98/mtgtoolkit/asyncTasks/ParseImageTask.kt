@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.os.AsyncTask
 import android.view.View
 import com.custompro98.mtgtoolkit.activities.MainActivity
-import com.custompro98.mtgtoolkit.callbacks.ParsingCallback
 import com.custompro98.mtgtoolkit.enums.ServiceName
 import com.custompro98.mtgtoolkit.services.AmazonRekognitionService
 import com.custompro98.mtgtoolkit.services.MLKitService
@@ -29,22 +28,20 @@ class ParseImageTask(private var activity: MainActivity, imagePath: String, serv
     override fun onPreExecute() {
         super.onPreExecute()
 
-        activity.textView.visibility = View.INVISIBLE
+        activity.cardName.visibility = View.INVISIBLE
         activity.progressBar.visibility = View.VISIBLE
     }
 
     override fun doInBackground(vararg p0: Void?) {
         try {
-            parsingService?.parse(object : ParsingCallback {
-                override fun onParsed(cardName: String) {
-                    FetchCardTask(activity, cardName).execute()
-                    activity.runOnUiThread {
-                        activity.textView.text = cardName
-                        activity.progressBar.visibility = View.INVISIBLE
-                        activity.textView.visibility = View.VISIBLE
-                    }
+            parsingService?.parse { cardName ->
+                FetchCardTask(activity, cardName).execute()
+                activity.runOnUiThread {
+                    activity.cardName.text = cardName
+                    activity.progressBar.visibility = View.INVISIBLE
+                    activity.cardName.visibility = View.VISIBLE
                 }
-            })
+            }
         } catch (e: Exception) {
             e.printStackTrace()
         } finally {
